@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">LuckyHooker</string>
+    <string name="app_about">关于</string>
+    <string name="app_source">源码</string>
+</resources>

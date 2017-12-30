@@ -1,0 +1,16 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/app_about"
+        android:key="about_settings">
+        <Preference
+            android:key="pref_app_name"
+            android:title="@string/app_name" />
+        <Preference
+            android:key="pref_app_source"
+            android:title="@string/app_source" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/wuxianlin/LuckyHooker" />
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>
