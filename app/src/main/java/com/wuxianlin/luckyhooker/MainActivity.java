@@ -35,6 +35,7 @@ public class MainActivity extends Activity {
                 MgTv.hookPackageName,
                 MxPlayer.hookPackageName,
                 PacketCapture.hookPackageName,
+                PerfectPlayer.hookPackageName,
                 PpTv.hookPackageNames[0],
                 PpTv.hookPackageNames[1],
                 RootExplorer.hookPackageName,
