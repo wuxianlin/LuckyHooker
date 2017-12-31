@@ -40,7 +40,8 @@ public class MainActivity extends Activity {
                 PpTv.hookPackageNames[1],
                 RootExplorer.hookPackageName,
                 ShowJava.hookPackageName,
-                SuperSU.hookPackageName
+                SuperSU.hookPackageName,
+                WkCast.hookPackageName
         };
 
         @Override
