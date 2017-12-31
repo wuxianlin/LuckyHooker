@@ -1,6 +1,7 @@
 package com.wuxianlin.luckyhooker.hooks;
 
 import android.content.ContextWrapper;
+import android.os.Build;
 
 import com.wuxianlin.luckyhooker.Hook;
 
@@ -26,7 +27,7 @@ public class MxPlayer implements Hook {
     @Override
     public void startHook(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         XposedBridge.log("start Hook MxPlayer Pro");
-        XposedHelpers.findAndHookMethod("com.mxtech.app.Apps", lpparam.classLoader, "get", int.class, new XC_MethodHook() {
+        XposedHelpers.findAndHookMethod("com.mxtech.app.Apps", lpparam.classLoader, Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? "c" : "get", int.class, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 int input = (int)param.args[0];
