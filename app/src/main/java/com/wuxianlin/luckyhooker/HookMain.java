@@ -24,6 +24,7 @@ public class HookMain implements IXposedHookLoadPackage, IXposedHookInitPackageR
         hooks.add(new MgTv());
         hooks.add(new MxPlayer());
         hooks.add(new PacketCapture());
+        hooks.add(new PpTv());
         hooks.add(new RootExplorer());
         hooks.add(new ShowJava());
         hooks.add(new SuperSU());
