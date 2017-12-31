@@ -18,7 +18,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class PacketCapture implements Hook {
 
-    private static final String hookPackageName = "app.greyshirts.sslcapture";
+    public static final String hookPackageName = "app.greyshirts.sslcapture";
 
     @Override
     public boolean canHook(String packageName) {

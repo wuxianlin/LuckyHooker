@@ -27,7 +27,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class KSWEB implements Hook {
 
-    private static final String hookPackageName = "ru.kslabs.ksweb";
+    public static final String hookPackageName = "ru.kslabs.ksweb";
 
     @Override
     public boolean canHook(String packageName) {

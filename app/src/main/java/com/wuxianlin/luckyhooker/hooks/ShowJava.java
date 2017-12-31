@@ -15,7 +15,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class ShowJava implements Hook {
 
-    private static final String hookPackageName = "com.njlabs.showjava";
+    public static final String hookPackageName = "com.njlabs.showjava";
 
     @Override
     public boolean canHook(String packageName) {

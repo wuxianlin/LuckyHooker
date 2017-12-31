@@ -14,7 +14,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class SuperSU implements Hook {
 
-    private static final String hookPackageName = "eu.chainfire.supersu";
+    public static final String hookPackageName = "eu.chainfire.supersu";
 
     @Override
     public boolean canHook(String packageName) {

@@ -19,7 +19,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class PpTv implements Hook {
 
-    private static final String[] hookPackageNames = new String[] {"com.pplive.androidphone", "com.pplive.androidpad"};
+    public static final String[] hookPackageNames = new String[] {"com.pplive.androidphone", "com.pplive.androidpad"};
 
     @Override
     public boolean canHook(String packageName) {

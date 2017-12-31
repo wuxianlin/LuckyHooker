@@ -14,7 +14,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class RootExplorer implements Hook {
 
-    private static final String hookPackageName = "com.speedsoftware.rootexplorer";
+    public static final String hookPackageName = "com.speedsoftware.rootexplorer";
 
     @Override
     public boolean canHook(String packageName) {

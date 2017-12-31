@@ -21,7 +21,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class MgTv implements Hook {
 
-    private static final String hookPackageName = "com.hunantv.imgo.activity";
+    public static final String hookPackageName = "com.hunantv.imgo.activity";
 
     @Override
     public boolean canHook(String packageName) {

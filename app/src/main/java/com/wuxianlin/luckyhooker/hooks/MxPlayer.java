@@ -17,7 +17,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class MxPlayer implements Hook {
 
-    private static final String hookPackageName = "com.mxtech.videoplayer.pro";
+    public static final String hookPackageName = "com.mxtech.videoplayer.pro";
 
     @Override
     public boolean canHook(String packageName) {
