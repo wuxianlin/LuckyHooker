@@ -1,5 +1,8 @@
 package com.wuxianlin.luckyhooker.hooks;
 
+import android.content.Context;
+import android.os.Build;
+
 import com.wuxianlin.luckyhooker.Hook;
 import com.wuxianlin.luckyhooker.HookUtils;
 
@@ -26,7 +29,19 @@ public class MgTv implements Hook {
     }
 
     @Override
-    public void startHook(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+    public void startHook(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            XposedHelpers.findAndHookMethod("com.mgtv.ui.ImgoApplication", lpparam.classLoader, "attachBaseContext", Context.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    doHook(lpparam);
+                }
+            });
+        } else
+            doHook(lpparam);
+    }
+
+    private void doHook(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         int versionCode = HookUtils.getPackageVersionCode(hookPackageName);
         XposedBridge.log("start Hook MgTV:"+versionCode);
 
