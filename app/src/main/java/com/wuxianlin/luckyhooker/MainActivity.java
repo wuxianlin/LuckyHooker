@@ -41,7 +41,8 @@ public class MainActivity extends Activity {
                 RootExplorer.hookPackageName,
                 ShowJava.hookPackageName,
                 SuperSU.hookPackageName,
-                WkCast.hookPackageName
+                WkCast.hookPackageName,
+                YouKu.hookPackageName
         };
 
         @Override

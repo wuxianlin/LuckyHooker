@@ -40,6 +40,7 @@ public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage, 
         hooks.add(new ShowJava());
         hooks.add(new SuperSU());
         hooks.add(new WkCast());
+        hooks.add(new YouKu());
     }
 
     @Override
