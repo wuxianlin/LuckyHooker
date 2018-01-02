@@ -38,6 +38,7 @@ public class MainActivity extends Activity {
                 PerfectPlayer.hookPackageName,
                 PpTv.hookPackageNames[0],
                 PpTv.hookPackageNames[1],
+                QqLive.hookPackageName,
                 RootExplorer.hookPackageName,
                 ShowJava.hookPackageName,
                 SuperSU.hookPackageName,
