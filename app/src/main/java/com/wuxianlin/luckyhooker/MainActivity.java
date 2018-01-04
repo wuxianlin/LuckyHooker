@@ -32,6 +32,8 @@ public class MainActivity extends Activity {
         private static final String KEY_APPS = "apps_settings";
         private static final String[] switchPackageNames = new String[]{
                 KSWEB.hookPackageName,
+                KuWo.hookPackageNames[0],
+                KuWo.hookPackageNames[1],
                 MgTv.hookPackageName,
                 MxPlayer.hookPackageName,
                 PacketCapture.hookPackageName,
