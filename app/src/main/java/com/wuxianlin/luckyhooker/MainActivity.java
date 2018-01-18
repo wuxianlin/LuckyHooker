@@ -48,7 +48,8 @@ public class MainActivity extends Activity {
                 ShowJava.hookPackageName,
                 SuperSU.hookPackageName,
                 WkCast.hookPackageName,
-                YouKu.hookPackageName
+                YouKu.hookPackageName,
+                HaiXing.hookPackageName
         };
 
         @Override
