@@ -31,6 +31,7 @@ public class MainActivity extends Activity {
 
         private static final String KEY_APPS = "apps_settings";
         private static final String[] switchPackageNames = new String[]{
+                HaiXing.hookPackageName,
                 KSWEB.hookPackageName,
                 KuWo.hookPackageNames[0],
                 KuWo.hookPackageNames[1],
@@ -48,8 +49,7 @@ public class MainActivity extends Activity {
                 ShowJava.hookPackageName,
                 SuperSU.hookPackageName,
                 WkCast.hookPackageName,
-                YouKu.hookPackageName,
-                HaiXing.hookPackageName
+                YouKu.hookPackageName
         };
 
         @Override

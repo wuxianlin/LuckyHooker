@@ -30,6 +30,7 @@ public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage, 
     private static final File prefsFileProt = new File("/data/user_de/0/" + PACKAGE_NAME + "/shared_prefs/" + PACKAGE_NAME + "_preferences.xml");
 
     public HookMain(){
+        hooks.add(new HaiXing());
         hooks.add(new KSWEB());
         hooks.add(new KuWo());
         hooks.add(new MgTv());
@@ -44,7 +45,6 @@ public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage, 
         hooks.add(new SuperSU());
         hooks.add(new WkCast());
         hooks.add(new YouKu());
-        hooks.add(new HaiXing());
     }
 
     @Override

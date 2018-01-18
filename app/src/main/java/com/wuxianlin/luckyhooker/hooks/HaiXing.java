@@ -1,13 +1,10 @@
 package com.wuxianlin.luckyhooker.hooks;
 
-import android.content.Context;
-
 import com.wuxianlin.luckyhooker.Hook;
 
-import java.util.Arrays;
+import java.io.File;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_InitPackageResources;
@@ -29,7 +26,16 @@ public class HaiXing implements Hook {
     @Override
     public void startHook(final XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         XposedBridge.log("start Hook HaiXing:" + lpparam.packageName);
-        XposedHelpers.findAndHookMethod("com.zhangyangjing.starfish.util.f", lpparam.classLoader, "m", Context.class, XC_MethodReplacement.returnConstant("VIP1"));
+        XposedHelpers.findAndHookMethod("android.app.SharedPreferencesImpl", lpparam.classLoader, "getString", String.class, String.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                File mFile = (File)XposedHelpers.getObjectField(param.thisObject,"mFile");
+                if (!mFile.getName().equals("app_settings.xml")) return;
+                String key = (String)param.args[0];
+                if (key.equals("account_type"))
+                    param.setResult("VIP1");
+            }
+        });
     }
 
     @Override
