@@ -46,18 +46,19 @@ public class MgTv implements Hook {
         XposedBridge.log("start Hook MgTV:"+versionCode);
 
         String mgmiConfigManager = versionCode > 556100 ? "com.mgmi.platform.a" : "com.mgmi.platform.ConfigManager";
-        String getAdHost = versionCode > 556100 ? "h" : "getAdHost";
+        String getAdHost = versionCode >= 5602100 ? "i" : versionCode > 556100 ? "h" : "getAdHost";
         String mgmiOfflineAdMananger = versionCode > 556100 ? "com.mgmi.d.a" : "com.mgmi.offline.OfflineAdMananger";
         String getOfflineVast = versionCode > 556100 ? "a" : "getOfflineVast";
         String mvpVodPlayerView = versionCode > 556100 ? "com.hunantv.player.vod.mvp.VodPlayerView" : "com.mgtv.ui.play.vod.mvp.VodPlayerView";
-        String showJustLook = versionCode > 556100 ? "showJustLookLayout" : "showJustLookPanel";
+        String showJustLook = versionCode >= 5603100 ? "br" : versionCode >= 5602100 ? "bo" : versionCode > 556100 ? "showJustLookLayout" : "showJustLookPanel";
+        String showJustLookRemind = versionCode >= 5603100 ? "bt" : versionCode >= 5602100 ? "bq" : "showJustLookRemind";
         String VodPlayerModel = versionCode > 556100 ? "com.hunantv.player.vod.mvp.VodPlayerModel" : "com.mgtv.ui.play.vod.mvp.VodPlayerModel";
+		String getVideoUrl = versionCode >= 5602100 ? "g" : "getVideoUrl";
+		final String getVideoDomains = versionCode >= 5604100 ? "J" : versionCode >= 5602100 ? "I" : "getVideoDomains";
 
         XposedHelpers.findAndHookMethod(mgmiConfigManager, lpparam.classLoader, getAdHost, XC_MethodReplacement.returnConstant("http://127.0.0.1"));
         XposedHelpers.findAndHookMethod(mgmiOfflineAdMananger, lpparam.classLoader, getOfflineVast, int.class, XC_MethodReplacement.returnConstant(null));
-        XposedHelpers.findAndHookMethod(mvpVodPlayerView, lpparam.classLoader, showJustLook, XC_MethodReplacement.returnConstant(null));
-        XposedHelpers.findAndHookMethod(mvpVodPlayerView, lpparam.classLoader, "showJustLookRemind", XC_MethodReplacement.returnConstant(null));
-        XposedHelpers.findAndHookMethod(VodPlayerModel, lpparam.classLoader, "getVideoUrl", new XC_MethodHook() {
+        XposedHelpers.findAndHookMethod(VodPlayerModel, lpparam.classLoader, getVideoUrl, new XC_MethodHook() {
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 String url = (String) param.getResult();
                 if (url.endsWith("m3u8")) return;
@@ -66,13 +67,15 @@ public class MgTv implements Hook {
                     String m3u8name = url.substring(url.indexOf("/"), url.indexOf("m3u8")+4);
                     String mp4name = m3u8name.substring(0, m3u8name.lastIndexOf("/"));
                     String fidname = mp4name.substring(mp4name.lastIndexOf("/") + 1, mp4name.indexOf("_", mp4name.lastIndexOf("/")));
-                    List domains = (List) XposedHelpers.callMethod(param.thisObject, "getVideoDomains");
+                    List domains = (List) XposedHelpers.callMethod(param.thisObject, getVideoDomains);
                     param.setResult(domains.get(0) + "/vod.do?fmt=4&pno=1021&fid=" + fidname + "&file="+m3u8name);
                 } catch (Exception e) {
                     XposedBridge.log(e.toString());
                 }
             }
         });
+        XposedHelpers.findAndHookMethod(mvpVodPlayerView, lpparam.classLoader, showJustLook, XC_MethodReplacement.returnConstant(null));
+        XposedHelpers.findAndHookMethod(mvpVodPlayerView, lpparam.classLoader, showJustLookRemind, XC_MethodReplacement.returnConstant(null));
     }
 
     @Override
