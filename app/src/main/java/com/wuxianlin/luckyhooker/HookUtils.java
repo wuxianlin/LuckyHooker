@@ -4,11 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.UserHandle;
+import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.robv.android.xposed.XposedHelpers;
 
@@ -43,6 +46,21 @@ public class HookUtils {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public static List<Method> findMethodWithName(String className, ClassLoader classLoader, String methodName) {
+        List<Method> methods = new ArrayList<>();
+        if (TextUtils.isEmpty(className) || TextUtils.isEmpty(methodName))
+            return methods;
+        Class hookClass = XposedHelpers.findClassIfExists(className, classLoader);
+        if (hookClass == null)
+            return methods;
+        for (Method method : hookClass.getDeclaredMethods()) {
+            if (methodName.equals(method.getName())) {
+                methods.add(method);
+            }
+        }
+        return methods;
     }
 
     public static int getMyUserId() {
