@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Peter Gregus for GravityBox Project (C3C076@xda)
+ * Copyright (C) 2019 Peter Gregus for GravityBox Project (C3C076@xda)
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,13 +18,21 @@ import java.io.File;
 import java.util.Map;
 import java.util.Set;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
-public class WorldReadablePrefs implements SharedPreferences, 
-                                           SettingsManager.FileObserverListener {
+import androidx.annotation.RequiresApi;
+
+/**
+ * https://github.com/GravityBox/GravityBox/blob/r/GravityBox/src/main/java/com/ceco/r/gravitybox/WorldReadablePrefs.java
+ */
+@RequiresApi(api = Build.VERSION_CODES.N)
+public class WorldReadablePrefs implements SharedPreferences,
+        SettingsManager.FileObserverListener {
     public static final boolean DEBUG = false;
 
     public interface OnPreferencesCommitedListener {
@@ -43,9 +51,11 @@ public class WorldReadablePrefs implements SharedPreferences,
     private EditorWrapper mEditorWrapper;
     private boolean mSelfAttrChange;
     private Handler mHandler;
+    private String mPreferenceDir;
 
-    public WorldReadablePrefs(Context ctx, String prefsName) {
+    public WorldReadablePrefs(Context ctx, String prefsDir, String prefsName) {
         mContext = ctx;
+        mPreferenceDir = prefsDir;
         mPrefsName = prefsName;
         mPrefs = ctx.getSharedPreferences(mPrefsName, 0);
         mHandler = new Handler();
@@ -58,6 +68,7 @@ public class WorldReadablePrefs implements SharedPreferences,
         return mPrefs.contains(key);
     }
 
+    @SuppressLint("CommitPrefEdits")
     @Override
     public EditorWrapper edit() {
         if (mEditorWrapper == null) {
@@ -118,9 +129,11 @@ public class WorldReadablePrefs implements SharedPreferences,
         mOnSharedPreferenceChangeCommitedListener = listener;
     }
 
+    @SuppressLint("SetWorldReadable")
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void maybePreCreateFile() {
         try {
-            File sharedPrefsFolder = new File(mContext.getDataDir().getAbsolutePath() + "/shared_prefs");
+            File sharedPrefsFolder = new File(mPreferenceDir);
             if (!sharedPrefsFolder.exists()) {
                 sharedPrefsFolder.mkdir();
                 sharedPrefsFolder.setExecutable(true, false);
@@ -128,16 +141,19 @@ public class WorldReadablePrefs implements SharedPreferences,
             }
             File f = new File(sharedPrefsFolder.getAbsolutePath() + "/" + mPrefsName + ".xml");
             if (!f.exists()) {
-                f.createNewFile();
-                f.setReadable(true, false);
+                edit().putBoolean("dummy", true).commit(() -> {
+                    f.setReadable(true, false);
+                });
             }
         } catch (Exception e) {
             Log.e("GravityBox", "Error pre-creating prefs file " + mPrefsName + ": " + e.getMessage());
         }
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    @SuppressLint("SetWorldReadable")
     private void fixPermissions(boolean force) {
-        File sharedPrefsFolder = new File(mContext.getDataDir().getAbsolutePath() + "/shared_prefs");
+        File sharedPrefsFolder = new File(mPreferenceDir);
         if (sharedPrefsFolder.exists()) {
             sharedPrefsFolder.setExecutable(true, false);
             sharedPrefsFolder.setReadable(true, false);
@@ -149,7 +165,7 @@ public class WorldReadablePrefs implements SharedPreferences,
         }
     }
 
-    public void fixPermissions() {
+    private void fixPermissions() {
         fixPermissions(false);
     }
 
@@ -219,42 +235,42 @@ public class WorldReadablePrefs implements SharedPreferences,
 
         @Override
         public EditorWrapper putString(String key,
-                String value) {
+                                       String value) {
             mEditor.putString(key, value);
             return this;
         }
 
         @Override
         public EditorWrapper putStringSet(String key,
-                Set<String> values) {
+                                          Set<String> values) {
             mEditor.putStringSet(key, values);
             return this;
         }
 
         @Override
         public EditorWrapper putInt(String key,
-                int value) {
+                                    int value) {
             mEditor.putInt(key, value);
             return this;
         }
 
         @Override
         public EditorWrapper putLong(String key,
-                long value) {
+                                     long value) {
             mEditor.putLong(key, value);
             return this;
         }
 
         @Override
         public EditorWrapper putFloat(String key,
-                float value) {
+                                      float value) {
             mEditor.putFloat(key, value);
             return this;
         }
 
         @Override
         public EditorWrapper putBoolean(String key,
-                boolean value) {
+                                        boolean value) {
             mEditor.putBoolean(key, value);
             return this;
         }
@@ -279,8 +295,7 @@ public class WorldReadablePrefs implements SharedPreferences,
         public boolean commit(OnPreferencesCommitedListener listener) {
             if (DEBUG) Log.d("GravityBox", "Commit for " + mPrefsName);
             mOnPreferencesCommitedListener = listener;
-            boolean ret = mEditor.commit();
-            return ret;
+            return mEditor.commit();
         }
 
         @Override
