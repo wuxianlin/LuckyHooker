@@ -40,9 +40,9 @@ public class KSWEB implements Hook {
         XposedHelpers.findAndHookMethod("android.app.SharedPreferencesImpl", lpparam.classLoader, "getString", String.class, String.class, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                File mFile = (File)XposedHelpers.getObjectField(param.thisObject,"mFile");
+                File mFile = (File) XposedHelpers.getObjectField(param.thisObject, "mFile");
                 if (!mFile.getName().equals("sec.xml")) return;
-                String key = (String)param.args[0];
+                String key = (String) param.args[0];
                 if (key.equals("value"))
                     param.setResult(getEncodedString(encrypt(getUUID() + "32eh2jrk345h34jgdcn34")));
                 else if (key.equals("type"))
@@ -117,7 +117,7 @@ public class KSWEB implements Hook {
         try {
             return md5(new UUID((long) str.hashCode(), (long) Build.class.getField("SERIAL").get(null).toString().hashCode()).toString());
         } catch (Exception e) {
-            return md5(new UUID((long) str.hashCode(), (long) ("HJ34KD87" + Settings.Secure.getString(HookUtils.getContext().getContentResolver(),"android_id")).hashCode()).toString());
+            return md5(new UUID((long) str.hashCode(), (long) ("HJ34KD87" + Settings.Secure.getString(HookUtils.getContext().getContentResolver(), "android_id")).hashCode()).toString());
         }
     }
 

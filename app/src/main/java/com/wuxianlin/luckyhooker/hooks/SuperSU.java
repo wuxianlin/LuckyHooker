@@ -27,8 +27,8 @@ public class SuperSU implements Hook {
         XposedHelpers.findAndHookMethod("android.app.ApplicationPackageManager", lpparam.classLoader, "getApplicationInfo", String.class, int.class, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                if(param.args[0].equals("eu.chainfire.supersu.pro"))
-                    param.args[0]="eu.chainfire.supersu";
+                if (param.args[0].equals("eu.chainfire.supersu.pro"))
+                    param.args[0] = "eu.chainfire.supersu";
             }
         });
     }

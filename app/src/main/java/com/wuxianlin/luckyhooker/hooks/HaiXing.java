@@ -29,9 +29,9 @@ public class HaiXing implements Hook {
         XposedHelpers.findAndHookMethod("android.app.SharedPreferencesImpl", lpparam.classLoader, "getString", String.class, String.class, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                File mFile = (File)XposedHelpers.getObjectField(param.thisObject,"mFile");
+                File mFile = (File) XposedHelpers.getObjectField(param.thisObject, "mFile");
                 if (!mFile.getName().equals("app_settings.xml")) return;
-                String key = (String)param.args[0];
+                String key = (String) param.args[0];
                 if (key.equals("account_type"))
                     param.setResult("VIP1");
             }

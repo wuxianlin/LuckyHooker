@@ -16,7 +16,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class QiYi implements Hook {
 
-    public static final String[] hookPackageNames = new String[] {"com.qiyi.video", "com.qiyi.video.pad", "tv.pps.mobile"};
+    public static final String[] hookPackageNames = new String[]{"com.qiyi.video", "com.qiyi.video.pad", "tv.pps.mobile"};
 
     @Override
     public boolean canHook(String packageName) {
@@ -33,18 +33,6 @@ public class QiYi implements Hook {
                     param.setResult("59e36a5e70e4c4efc6fcbc4db7ea59c1");
                     //param.setResult("20485102b09bfb5842bf370463bed900");
                     //param.setResult("200852026c791ac910651df45b27da50");
-                } else if ("phone.baidu.channel".equals(param.args[0])) {
-                    param.setResult("google");
-                    //param.setResult("Play商店");
-                    //param.setResult("PPS_google");
-                } else if ("guide_on".equals(param.args[0])) {
-                    param.setResult("false");
-                } else if ("qiyi.export.channel.ad.switch".equals(param.args[0])) {
-                    param.setResult("false");
-                } else if ("qiyi.export.channel.ad.ppsgame.switch".equals(param.args[0])) {
-                    param.setResult("false");
-                } else if ("qiyi.push.msg.value".equals(param.args[0])) {
-                    param.setResult("1");
                 }
             }
         });

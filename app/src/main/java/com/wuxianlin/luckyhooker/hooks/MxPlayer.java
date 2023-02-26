@@ -30,15 +30,15 @@ public class MxPlayer implements Hook {
         XposedHelpers.findAndHookMethod("com.mxtech.app.Apps", lpparam.classLoader, Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? "c" : "get", int.class, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                int input = (int)param.args[0];
-                if (input==1 || input==2)
+                int input = (int) param.args[0];
+                if (input == 1 || input == 2)
                     param.setResult(1L);
             }
         });
         XposedHelpers.findAndHookMethod(ContextWrapper.class, "checkPermission", String.class, int.class, int.class, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                String perm = (String)param.args[0];
+                String perm = (String) param.args[0];
                 if (perm.equals("com.android.vending.CHECK_LICENSE")
                         || perm.equals("android.permission.GET_ACCOUNTS"))
                     param.setResult(0);

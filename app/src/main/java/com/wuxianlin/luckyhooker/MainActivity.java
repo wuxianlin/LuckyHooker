@@ -71,23 +71,14 @@ public class MainActivity extends AppCompatActivity {
         private static final String[] switchPackageNames = new String[]{
                 HaiXing.hookPackageName,
                 KSWEB.hookPackageName,
-                KuWo.hookPackageNames[0],
-                KuWo.hookPackageNames[1],
-                MgTv.hookPackageName,
                 MxPlayer.hookPackageName,
                 PacketCapture.hookPackageName,
                 PerfectPlayer.hookPackageName,
-                PpTv.hookPackageNames[0],
-                PpTv.hookPackageNames[1],
                 QiYi.hookPackageNames[0],
                 QiYi.hookPackageNames[1],
                 QiYi.hookPackageNames[2],
-                QqLive.hookPackageName,
-                RootExplorer.hookPackageName,
                 ShowJava.hookPackageName,
                 SuperSU.hookPackageName,
-                WkCast.hookPackageName,
-                YouKu.hookPackageName
         };
 
         @Override

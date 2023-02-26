@@ -1,7 +1,5 @@
 package com.wuxianlin.luckyhooker.hooks;
 
-import android.content.Context;
-
 import com.wuxianlin.luckyhooker.Hook;
 
 import java.io.File;
@@ -31,9 +29,9 @@ public class PerfectPlayer implements Hook {
         XposedHelpers.findAndHookMethod("android.app.SharedPreferencesImpl", lpparam.classLoader, "getBoolean", String.class, boolean.class, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                File mFile = (File)XposedHelpers.getObjectField(param.thisObject,"mFile");
+                File mFile = (File) XposedHelpers.getObjectField(param.thisObject, "mFile");
                 if (!mFile.getName().equals(hookPackageName + "_preferences.xml")) return;
-                String key = (String)param.args[0];
+                String key = (String) param.args[0];
                 if (key.equals("pref_key_unlocked_full_version"))
                     param.setResult(true);
             }
