@@ -20,16 +20,19 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
  * Created by wuxianlin on 2016/1/2.
  */
 
-public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage, IXposedHookInitPackageResources {
+public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage,
+        IXposedHookInitPackageResources {
 
     private Set<Hook> hooks = new HashSet<Hook>();
 
     public static XSharedPreferences prefs;
-    public static final String PACKAGE_NAME = HookMain.class.getPackage().getName();
+    public static final String PACKAGE_NAME = BuildConfig.APPLICATION_ID;
     public static String MODULE_PATH = null;
-    private static final File prefsFileProt = new File("/data/user_de/0/" + PACKAGE_NAME + "/shared_prefs/" + PACKAGE_NAME + "_preferences.xml");
+    private static File prefsFileProt = new File("/data/user_de/" +
+            HookUtils.getMyUserId() +
+            "/" + PACKAGE_NAME + "/shared_prefs/" + PACKAGE_NAME + "_preferences.xml");
 
-    public HookMain(){
+    public HookMain() {
         hooks.add(new HaiXing());
         hooks.add(new KSWEB());
         hooks.add(new KuWo());
@@ -50,7 +53,7 @@ public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage, 
     @Override
     public void initZygote(IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
         MODULE_PATH = startupParam.modulePath;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && prefsFileProt.canRead()) {
             prefs = new XSharedPreferences(prefsFileProt);
         } else {
             prefs = new XSharedPreferences(PACKAGE_NAME);

@@ -1,0 +1,17 @@
+<resources>
+    <string-array name="xposedscope">
+        <item>com.zhangyangjing.starfish</item>
+        <item>ru.kslabs.ksweb</item>
+        <item>com.mxtech.videoplayer.pro</item>
+        <item>com.minhui.networkcapture</item>
+        <item>com.nowcasting.huawei</item>
+        <item>com.nowcasting.activity</item>
+        <item>app.greyshirts.sslcapture</item>
+        <item>com.niklabs.pp</item>
+        <item>com.qiyi.video</item>
+        <item>com.qiyi.video.pad</item>
+        <item>tv.pps.mobile</item>
+        <item>com.njlabs.showjava</item>
+        <item>eu.chainfire.supersu</item>
+    </string-array>
+</resources>
