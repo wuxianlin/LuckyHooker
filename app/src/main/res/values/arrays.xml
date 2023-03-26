@@ -1,6 +1,8 @@
 <resources>
     <string-array name="xposedscope">
         <item>com.zhangyangjing.starfish</item>
+        <item>com.guoshi.httpcanary</item>
+        <item>com.guoshi.httpcanary.premium</item>
         <item>ru.kslabs.ksweb</item>
         <item>com.mxtech.videoplayer.pro</item>
         <item>com.minhui.networkcapture</item>

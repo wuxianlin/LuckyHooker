@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
         private static final String KEY_APPS = "apps_settings";
         private static final String[] switchPackageNames = new String[]{
                 HaiXing.hookPackageName,
+                HttpCanary.hookPackageNames[0],
+                HttpCanary.hookPackageNames[1],
                 KSWEB.hookPackageName,
                 MxPlayer.hookPackageName,
                 NetworkCapture.hookPackageName,
