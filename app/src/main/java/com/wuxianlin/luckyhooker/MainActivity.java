@@ -10,8 +10,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
@@ -29,8 +33,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.settings_activity);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !checkLSPosed(this)) {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.settings), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !LSPosedUtils.checkLSPosed(this)) {
             SettingsManager.getInstance(this).fixFolderPermissionsAsync();
         }
         if (savedInstanceState == null) {
@@ -43,26 +53,6 @@ public class MainActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-    }
-
-    private static boolean checkResult = false;
-    private static boolean checked = false;
-
-    @SuppressLint("WorldReadableFiles")
-    public static boolean checkLSPosed(Context context) {
-        if (checked)
-            return checkResult;
-        try {
-            context.getSharedPreferences(context.getPackageName() + "_preferences",
-                    Context.MODE_WORLD_READABLE);
-            checkResult = true;
-            checked = true;
-        } catch (SecurityException exception) {
-            Toast.makeText(context, "LuckyHooker Settings may not work", Toast.LENGTH_LONG).show();
-            checkResult = false;
-            checked = true;
-        }
-        return checkResult;
     }
 
     public static class PrefsFragment extends PreferenceFragmentCompat {
@@ -91,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
             setPreferencesFromResource(R.xml.pref_luckyhooker, rootKey);
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
                 getPreferenceManager().setSharedPreferencesMode(Context.MODE_WORLD_READABLE);
-            } else if (!checkLSPosed(getContext())) {
+            } else if (!LSPosedUtils.checkLSPosed(getContext())) {
                 getPreferenceManager().setStorageDeviceProtected();
             }
             PreferenceCategory Apps = (PreferenceCategory) findPreference(KEY_APPS);
