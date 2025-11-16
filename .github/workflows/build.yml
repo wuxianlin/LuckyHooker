@@ -1,0 +1,47 @@
+name: Apk Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: Build Apk
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out 
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 17
+
+      - name: download testkey
+        run: |
+          curl -s https://android.googlesource.com/platform/build/+/refs/heads/main/target/product/security/testkey.x509.pem?format=TEXT | base64 -d > testkey.x509.pem
+          curl -s https://android.googlesource.com/platform/build/+/refs/heads/main/target/product/security/testkey.pk8?format=TEXT | base64 -d > testkey.pk8
+          openssl pkcs8 -in testkey.pk8 -inform DER -outform PEM -out testkey.priv.pem -nocrypt
+          openssl pkcs12 -export -in testkey.x509.pem -inkey testkey.priv.pem -out testkey.pk12 -password pass:android -name androiddebugkey
+          keytool -importkeystore -srckeystore testkey.pk12 -srcstoretype PKCS12 -srcstorepass android -alias androiddebugkey -deststoretype JKS -destkeystore testkey.jks -deststorepass android
+
+      - name: Build release APK
+        run: bash gradlew assembleRelease
+        shell: bash
+
+      - name: Sign release APK
+        run: |
+          apksigner="$(find $ANDROID_SDK_ROOT/build-tools -name apksigner | sort -r | head -n 1)"
+          "$apksigner" sign --ks testkey.jks --ks-key-alias androiddebugkey --ks-pass pass:android --key-pass pass:android --in ./app/build/outputs/apk/release/app-release-unsigned.apk --out ./app/build/outputs/apk/release/app-release.apk
+        shell: bash
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: error
+
