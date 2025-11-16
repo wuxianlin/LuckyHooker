@@ -1,18 +1,24 @@
 pluginManagement {
     repositories {
-        gradlePluginPortal()
-        google()
-        jcenter()
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
         mavenCentral()
+        gradlePluginPortal()
     }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
-        jcenter()
         mavenCentral()
+        maven { url "https://api.xposed.info/" }
     }
 }
+
 rootProject.name = "LuckyHooker"
 include ':app'
