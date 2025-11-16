@@ -33,6 +33,7 @@ public class HookMain implements IXposedHookZygoteInit, IXposedHookLoadPackage,
             "/" + PACKAGE_NAME + "/shared_prefs/" + PACKAGE_NAME + "_preferences.xml");
 
     public HookMain() {
+        hooks.add(new CoolApk());
         hooks.add(new HaiXing());
         hooks.add(new HttpCanary());
         hooks.add(new KSWEB());
